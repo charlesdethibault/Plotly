@@ -1,0 +1,71 @@
+---
+title: "Plotly"
+author: "Charles-Antoine de Thibault"
+date: "28 November 2017"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## The data
+
+```{r, echo = FALSE, message =FALSE}
+data(mtcars)
+head(mtcars)
+```
+
+## basic Scatterplot
+
+```{r, echo = FALSE, message =FALSE}
+library(plotly)
+plot_ly(data = mtcars,x = mtcars$wt, y = mtcars$mpg, mode = "markers")
+```
+
+## Scatterplot with colour
+
+```{r, echo = FALSE, message =FALSE}
+plot_ly(data = mtcars,x = mtcars$wt, y = mtcars$mpg, mode = "markers", color = as.factor(mtcars$cyl))
+```
+
+## Scatterplot with colour with continuous variables
+
+```{r, echo = FALSE, message =FALSE}
+plot_ly(data = mtcars,x = mtcars$wt, y = mtcars$mpg, mode = "markers", color = mtcars$disp)
+```
+
+##Scatterplot Sizing
+```{r, echo = FALSE, message =FALSE}
+plot_ly(data = mtcars,x = mtcars$wt, y = mtcars$mpg, mode = "markers", color = as.factor(mtcars$cyl), size = mtcars$hp)
+```
+
+## 3D Scatterplot
+
+```{r, echo = FALSE, message =FALSE}
+set.seed(2017)
+temp <- rnorm(100, mean = 30, sd = 5)
+pressue <- rnorm(100)
+dtime <- 1:100
+plot_ly(x = temp, y = pressue, z = dtime, type = "scatter3d", mode = "markers", color = temp)
+```
+
+## Line Graph
+```{r, echo = FALSE, message =FALSE}
+data("airmiles")
+plot_ly(x = time(airmiles), y = airmiles)
+```
+
+## Diamonds with ggplot
+```{r, echo = FALSE, message =FALSE}
+set.seed(2017)
+d <- diamonds[sample(nrow(diamonds),1000),]
+
+p <- ggplot(data = d, aes(x = carat, y = price)) +
+  geom_point(aes(text = paste("Clarity:", clarity)), size = 4) +
+  geom_smooth(aes(colour = cut, fill = cut)) + facet_grid(~ cut)
+
+(gg <- ggplotly(p))
+```
+
+
